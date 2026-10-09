@@ -12,8 +12,22 @@ try {
     await page.goto('http://localhost:3000',{waitUntil:'domcontentloaded'});
     assert.equal(await page.locator('.entrance').isVisible(),true,'Original logo entrance plays');
     assert.equal(await page.locator('.invitation-scene').getAttribute('data-state'),'loading','Envelope waits for the logo lifecycle');
+    await page.evaluate(()=>{
+      window.logoTransitionFrames=[];
+      const sample=()=>{
+        const scene=document.getElementById('invitation-scene');
+        const logo=document.querySelector('.entrance');
+        const rect=logo?.getBoundingClientRect();
+        if(scene){const style=getComputedStyle(scene);window.logoTransitionFrames.push({sceneOpaque:!scene.hidden&&style.visibility==='visible'&&Number(style.opacity)===1,pageHidden:getComputedStyle(document.querySelector('main')).visibility==='hidden',logoLeaving:Boolean(rect&&rect.top<0),envelopeReady:scene.classList.contains('is-prepared')});}
+        if(logo)requestAnimationFrame(sample);
+      };
+      requestAnimationFrame(sample);
+    });
     await page.locator('.invitation-scene[data-state=waiting]').waitFor();
     assert.equal(await page.locator('.entrance').count(),0);
+    const transition=await page.evaluate(()=>window.logoTransitionFrames);
+    assert.ok(transition.length>0&&transition.every(frame=>frame.sceneOpaque&&frame.pageHidden),'The homepage never flashes through the logo-to-envelope transition');
+    assert.ok(transition.some(frame=>frame.logoLeaving&&frame.envelopeReady),'Envelope is already painted behind the exiting logo');
     const button=page.locator('#open-invitation');
     assert.equal(await button.evaluate(el=>el===document.activeElement),true,'Envelope receives keyboard focus');
     assert.equal(await page.locator('main').evaluate(el=>el.inert),true);

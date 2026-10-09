@@ -59,7 +59,7 @@ if (hasGSAP && !reduceMotion) {
     .from('.entrance-mark>span',{opacity:0,y:15,duration:.8,ease:'power3.out'},.25)
     .from('.entrance p',{opacity:0,y:8,duration:.6},.6)
     .to('.entrance-mark,.entrance p',{opacity:0,y:-18,duration:.5,stagger:.06},1.5)
-    .to(entrance,{yPercent:-100,duration:.9,ease:'power3.inOut'},1.75);
+    .to(entrance,{yPercent:-100,duration:.9,ease:'power3.inOut',onStart:()=>window.WeddingEnvelope?.prepare()},1.75);
 }else{
   document.querySelector('.entrance')?.remove();
   window.WeddingEnvelope?.show();

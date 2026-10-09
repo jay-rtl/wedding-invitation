@@ -1,4 +1,5 @@
-// The monogram completion calls show(). Only a guest action can call open().
+// The logo exit prepares the opaque envelope scene; completion enables it.
+// Only a guest action can call open().
 (() => {
   const scene=document.getElementById('invitation-scene');
   const button=document.getElementById('open-invitation');
@@ -14,7 +15,7 @@
   const card=scene.querySelector('.invitation-card');
   const hint=scene.querySelector('.envelope-hint');
   const announcement=scene.querySelector('.envelope-announcement');
-  let state='loading',floating,shadowMotion,hintMotion,revealTimeline,openingTimeline;
+  let state='loading',floating,shadowMotion,hintMotion,openingTimeline;
   let revealed=false;
   scene.hidden=false;
   background.forEach(node=>{node.inert=true;});
@@ -23,27 +24,30 @@
   const revealHome=()=>{
     if(revealed)return;
     revealed=true;
+    document.documentElement.classList.add('invitation-revealing');
     document.dispatchEvent(new Event('wedding:reveal'));
   };
   const finish=()=>{
     if(state==='opened')return;
     revealHome();setState('opened');
-    [floating,shadowMotion,hintMotion,revealTimeline].forEach(animation=>animation?.kill());
+    [floating,shadowMotion,hintMotion].forEach(animation=>animation?.kill());
     button.removeEventListener('click',open);
     scene.removeEventListener('keydown',trapFocus);
     scene.hidden=true;scene.remove();
     background.forEach((node,i)=>{node.inert=previousInert[i];});
-    document.documentElement.classList.remove('invitation-locked');
+    document.documentElement.classList.remove('invitation-locked','invitation-revealing');
     if(window.ScrollTrigger)ScrollTrigger.refresh();
     const heading=document.querySelector('.hero h1');
     if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}
     document.dispatchEvent(new Event('wedding:opened'));
   };
+  function prepare(){
+    if(state==='loading')scene.classList.add('is-prepared');
+  }
   function show(){
     if(state!=='loading')return;
     setState('waiting');button.disabled=false;
     if(animated){
-      revealTimeline=gsap.fromTo(scene,{opacity:0},{opacity:1,duration:.75,ease:'power2.out'});
       floating=gsap.fromTo(float,{y:0,rotation:-.65},{y:-12,rotation:.85,duration:3.2,repeat:-1,yoyo:true,ease:'sine.inOut'});
       shadowMotion=gsap.fromTo(shadow,{scaleX:1,opacity:.45},{scaleX:.9,opacity:.3,duration:3.2,repeat:-1,yoyo:true,ease:'sine.inOut'});
       hintMotion=gsap.to(scene.querySelector('.hint-arrow'),{y:-4,duration:1.6,repeat:-1,yoyo:true,ease:'sine.inOut'});
@@ -94,5 +98,5 @@
   }
   button.addEventListener('click',open);
   scene.addEventListener('keydown',trapFocus);
-  window.WeddingEnvelope={show,get state(){return state;}};
+  window.WeddingEnvelope={prepare,show,get state(){return state;}};
 })();
