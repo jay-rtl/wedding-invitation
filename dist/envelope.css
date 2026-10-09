@@ -1,4 +1,5 @@
 html.invitation-locked,html.invitation-locked body{overflow:hidden;overscroll-behavior:none}
+.hero h1[tabindex="-1"]:focus{outline:none}
 html.invitation-locked:not(.invitation-revealing) body>:is(header,main,footer,.floating-couple){visibility:hidden}
 .invitation-scene[hidden]{display:none}
 .invitation-scene{--envelope-width:min(78vw,400px,52svh);position:fixed;inset:0;z-index:90;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:max(24px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));overflow:hidden;background:#f4f2e8;isolation:isolate}

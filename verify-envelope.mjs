@@ -66,6 +66,7 @@ try {
     assert.equal(await page.locator('main').evaluate(el=>el.inert),false);
     assert.equal(await page.evaluate(()=>document.documentElement.classList.contains('invitation-locked')),false);
     assert.equal(await page.locator('.hero h1').evaluate(el=>el===document.activeElement),true,'Focus moves into the invitation');
+    assert.equal(await page.locator('.hero h1').evaluate(el=>getComputedStyle(el).outlineStyle),'none','Programmatic heading focus has no visible border');
     assert.equal(await page.evaluate(()=>scrollY),0,'Opening causes no scroll jump');
     const seconds=await page.locator('#seconds').textContent();await page.waitForTimeout(1200);
     assert.notEqual(await page.locator('#seconds').textContent(),seconds);
