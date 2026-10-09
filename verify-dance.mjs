@@ -10,6 +10,17 @@ try {
     await page.goto('http://localhost:3000',{waitUntil:'networkidle'});
     await page.waitForTimeout(4300);
     const couple=page.locator('.floating-couple');
+    const defaultWidth=(await couple.boundingBox()).width;
+    assert.equal(await couple.getAttribute('data-size'),'medium');
+    await page.locator('#couple-smaller').click();
+    assert.ok((await couple.boundingBox()).width<defaultWidth,'Visitor can shrink the whole group');
+    assert.equal(await page.locator('#couple-smaller').isDisabled(),true);
+    assert.equal(await couple.evaluate(el=>el.style.left),'','Size buttons do not start dragging');
+    await page.locator('#couple-larger').click();
+    await page.locator('#couple-larger').click();
+    assert.ok((await couple.boundingBox()).width>defaultWidth,'Visitor can enlarge the whole group');
+    assert.equal(await page.locator('#couple-larger').isDisabled(),true);
+    await page.locator('#couple-smaller').click();
     assert.equal(await couple.locator('time').textContent(),'June 12, 2027');
     const secondsBefore=await couple.locator('[data-countdown=seconds]').textContent();
     await page.waitForTimeout(1200);
@@ -51,6 +62,10 @@ try {
     await page.screenshot({path:`test-results/floating-${width}.png`});
     await page.setViewportSize({width:320,height:500});await page.waitForTimeout(250);
     const clamped=await couple.boundingBox();assert.ok(clamped.x>=0&&clamped.y>=0&&clamped.x+clamped.width<=320&&clamped.y+clamped.height<=500,'Resize keeps couple inside screen');
+    await page.locator('#couple-larger').click();await page.waitForTimeout(250);
+    const resized=await couple.boundingBox();assert.ok(resized.x+resized.width<=320&&resized.y+resized.height<=500,'Enlarging a dragged group keeps it inside screen');
+    await page.reload({waitUntil:'networkidle'});
+    assert.equal(await couple.getAttribute('data-size'),'large','Visitor size preference survives reload');
     assert.deepEqual(errors,[]);await page.close();
   }
   const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});

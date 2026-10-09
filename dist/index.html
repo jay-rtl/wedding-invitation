@@ -28,7 +28,7 @@
   <section class="rsvp section" id="rsvp"><span class="little-star reveal">✳</span><div class="section-heading reveal"><span class="eyebrow">IT WOULDN'T BE THE SAME WITHOUT YOU</span><h2>Save your <em>seat.</em></h2><p>Kindly let us know by May 1, 2027.</p></div><form id="rsvp-form" class="reveal"><div class="form-row"><label>Your full name<input name="name" autocomplete="name" placeholder="First & last name" required maxlength="120"></label><label>Email address<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required></label></div><div class="form-row"><label>Will you be joining us?<select name="attendance" required><option value="" disabled selected>Select your response</option><option value="yes">Joyfully accepts</option><option value="no">Regretfully declines</option></select></label><label id="guest-label">Number of guests<select name="guests"><option value="1">Just me</option><option value="2">Two of us</option></select></label></div><label>A little note <span class="optional">(optional)</span><textarea name="note" placeholder="Dietary needs, a song request, or just a little love…" rows="2" maxlength="1000"></textarea></label><button class="dark-button" type="submit">Send with love <span>↗</span></button><p class="form-note">Sample invitation · Your response is saved on this device only.</p><p class="form-message" id="form-message" role="status" tabindex="-1"></p></form></section>
   </main>
   <footer><a class="monogram" href="#home">E<span>&</span>J</a><p>JUNE 12, 2027 · TUSCANY, ITALY</p><span>With love, always.</span><p class="demo-note">A sample invitation, made for your own love story.</p></footer>
-  <aside class="floating-couple" id="floating-couple" tabindex="0" role="group" aria-label="Floating bride and groom with the wedding date and live countdown. Drag to move, or use arrow keys when focused." aria-describedby="couple-help">
+  <aside class="floating-couple" id="floating-couple" data-size="medium" tabindex="0" role="group" aria-label="Floating bride and groom with the wedding date and live countdown. Drag to move, or use arrow keys when focused." aria-describedby="couple-help">
     <div class="couple-content">
     <svg class="dance-art" viewBox="265 105 425 395" aria-hidden="true">
         <defs><linearGradient id="dress-shade" x1="0" x2="1"><stop stop-color="#e6e8d8"/><stop offset=".45" stop-color="#fffdf5"/><stop offset="1" stop-color="#f1f0e3"/></linearGradient></defs>
@@ -78,8 +78,12 @@
       </div>
       <p class="floating-wedding-message" id="floating-wedding-message" hidden>Our wedding day is here!</p>
     </div>
-    <div class="couple-grip"><span aria-hidden="true">⠿</span> drag to move</div>
     </div>
-    <p class="couple-help" id="couple-help">The couple, wedding date, and countdown stay together as you scroll. Drag with your mouse or finger to move them. Use the arrow keys when focused.</p>
+    <div class="couple-tools">
+      <button type="button" class="couple-size-button" id="couple-smaller" aria-label="Make the floating couple and countdown smaller" title="Make smaller">−</button>
+      <div class="couple-grip"><span aria-hidden="true">⠿</span> drag to move</div>
+      <button type="button" class="couple-size-button" id="couple-larger" aria-label="Make the floating couple and countdown larger" title="Make larger">+</button>
+    </div>
+    <p class="couple-help" id="couple-help">The couple, wedding date, and countdown stay together as you scroll. Drag with your mouse or finger to move them. Use the arrow keys when focused, or the minus and plus buttons to change the size.</p>
   </aside>
 </body></html>

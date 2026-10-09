@@ -2,6 +2,8 @@
 
 Hosted with GitHub Pages. Push changes to `main` to automatically deploy the contents of `dist/`. Deployment progress appears under the repository's Actions tab.
 
+The floating group starts at a compact size. Visitors can use its minus and plus buttons to choose small, medium, or large; their preference is saved on their device. Resizing keeps a dragged group within the screen.
+
 An ivory and olive wedding invitation with a generated Tuscan garden image, a GSAP animated monogram introduction, scroll reveals, image parallax, and a countdown that updates each second.
 
 The illustrated bride and groom float together with the wedding date and live countdown in a fixed corner throughout the invitation. Both countdown displays use the same wedding date and update every second. Scrolling smoothly controls their dance. Drag the entire group anywhere with a mouse or finger; arrow keys also move it when focused. Its position stays inside the viewport and is preserved while scrolling. Reduced-motion visitors can still move the group, with decorative animation disabled. Run `node verify-dance.mjs` to check the floating interaction in desktop and mobile Chrome.

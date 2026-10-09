@@ -1,15 +1,22 @@
-.floating-couple{width:210px}
+.floating-couple{--float-width:170px;--art-width:145px;--digits:24px;width:var(--float-width)}
+.floating-couple[data-size="small"]{--float-width:142px;--art-width:110px;--digits:21px}
+.floating-couple[data-size="large"]{--float-width:210px;--art-width:190px;--digits:28px}
 .couple-content{animation:couple-float 5s ease-in-out infinite;transform-origin:center bottom}
-.floating-couple .dance-art{width:190px;margin:0 auto;animation:none}
+.floating-couple .dance-art{width:var(--art-width);margin:0 auto;animation:none}
 .floating-couple.is-dragging .couple-content{animation-play-state:paused}
-.floating-wedding-clock{padding:12px 14px 11px;background:#f7f5eeed;border:1px solid #dce1cf;border-radius:14px;backdrop-filter:blur(10px);box-shadow:0 5px 20px #33432b0a;text-align:center;pointer-events:none}
-.floating-wedding-date{display:block;color:#566548;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;padding-bottom:9px;margin-bottom:8px;border-bottom:1px solid #dde1d1}
+.floating-wedding-clock{padding:10px;background:#f7f5eeed;border:1px solid #dce1cf;border-radius:14px;backdrop-filter:blur(10px);box-shadow:0 5px 20px #33432b0a;text-align:center;pointer-events:none}
+.floating-wedding-date{display:block;color:#566548;font-size:8px;letter-spacing:.8px;text-transform:uppercase;padding-bottom:7px;margin-bottom:7px;border-bottom:1px solid #dde1d1}
 .floating-countdown{display:flex;align-items:flex-start;justify-content:space-between;gap:4px}
-.floating-countdown>div{min-width:27px}
-.floating-countdown span{display:block;font-family:var(--serif);font-size:28px;line-height:1;font-weight:500;font-variant-numeric:tabular-nums;color:var(--ink)}
+.floating-countdown>div{min-width:0}
+.floating-countdown span{display:block;font-family:var(--serif);font-size:var(--digits);line-height:1;font-weight:500;font-variant-numeric:tabular-nums;color:var(--ink)}
 .floating-countdown small{display:block;font-size:6px;letter-spacing:1px;color:#7d876e;margin-top:6px}
 .floating-countdown b{font-family:var(--serif);font-size:21px;font-weight:400;color:#9ba58a;line-height:1;padding-top:1px}
 .floating-wedding-message{font-family:var(--serif);font-size:15px;font-style:italic;margin-top:8px;line-height:1.3}
-.floating-couple .couple-grip{margin-top:7px}
-@media(max-width:700px){.floating-couple{width:164px}.floating-couple .dance-art{width:132px}.floating-wedding-clock{padding:10px 10px 9px;border-radius:12px}.floating-wedding-date{font-size:8px;letter-spacing:.8px;padding-bottom:7px;margin-bottom:7px}.floating-countdown span{font-size:23px}.floating-countdown b{font-size:18px}.floating-countdown small{font-size:5px;letter-spacing:.8px}.floating-countdown>div{min-width:23px}}
+.couple-tools{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:7px}
+.floating-couple .couple-grip{margin:0;padding:5px 7px;font-size:7px}
+.couple-size-button{flex-shrink:0;width:28px;height:28px;display:grid;place-items:center;border:1px solid #dce1cf;border-radius:50%;background:#f7f5eeed;color:#536549;font-size:17px;line-height:1;padding:0;cursor:pointer;touch-action:manipulation;box-shadow:0 2px 5px #33432b09;transition:background .2s}
+.couple-size-button:hover:not(:disabled){background:#e2e8d5}
+.couple-size-button:disabled{opacity:.4;cursor:default}
+.couple-size-button:focus-visible{outline:2px solid #82956d;outline-offset:2px}
+@media(max-width:700px){.floating-couple{--float-width:140px;--art-width:112px;--digits:21px}.floating-couple[data-size="small"]{--float-width:120px;--art-width:88px;--digits:18px}.floating-couple[data-size="large"]{--float-width:164px;--art-width:132px;--digits:23px}.floating-wedding-clock{padding:9px 7px;border-radius:12px}.floating-wedding-date{font-size:7px;letter-spacing:.5px}.floating-countdown{gap:2px}.floating-countdown b{font-size:17px}.floating-countdown small{font-size:5px;letter-spacing:.6px}.couple-tools{gap:3px}.couple-size-button{width:26px;height:26px}.floating-couple .couple-grip{font-size:6px;padding:5px}}
 @media(prefers-reduced-motion:reduce){.couple-content{animation:none}}

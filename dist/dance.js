@@ -1,4 +1,22 @@
 // A floating, draggable couple. Scrolling smoothly controls their dance.
+function setupSizing(element) {
+  const sizes=['small','medium','large'];
+  const smaller=element.querySelector('#couple-smaller');
+  const larger=element.querySelector('#couple-larger');
+  let size=1;
+  try {
+    const saved=sizes.indexOf(localStorage.getItem('wedding-float-size'));
+    if(saved!==-1)size=saved;
+  }catch { /* Size controls also work when storage is unavailable. */ }
+  const apply=()=>{
+    element.dataset.size=sizes[size];
+    smaller.disabled=size===0;larger.disabled=size===sizes.length-1;
+    try{localStorage.setItem('wedding-float-size',sizes[size]);}catch{}
+  };
+  smaller.addEventListener('click',()=>{size=Math.max(0,size-1);apply();});
+  larger.addEventListener('click',()=>{size=Math.min(sizes.length-1,size+1);apply();});
+  apply();
+}
 function setupDragging(element, reduced) {
   let point = null;
   let drag = null;
@@ -21,7 +39,7 @@ function setupDragging(element, reduced) {
     else {if(moveX){moveX.tween.pause();moveY.tween.pause();}Object.assign(position,point);render();}
   };
   element.addEventListener('pointerdown',event=>{
-    if(event.button!==0||drag) return;
+    if(event.button!==0||drag||event.target.closest('button')) return;
     event.preventDefault();anchor();
     drag={id:event.pointerId,x:event.clientX,y:event.clientY,startX:position.x,startY:position.y};
     element.setPointerCapture(event.pointerId);element.classList.add('is-dragging');element.focus({preventScroll:true});
@@ -37,17 +55,20 @@ function setupDragging(element, reduced) {
   };
   element.addEventListener('pointerup',finish);element.addEventListener('pointercancel',finish);element.addEventListener('lostpointercapture',finish);
   element.addEventListener('keydown',event=>{
+    if(event.target.closest('button')) return;
     const directions={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};
     if(!directions[event.key]) return;
     event.preventDefault();anchor();const step=event.shiftKey?32:12;
     move(point.x+directions[event.key][0]*step,point.y+directions[event.key][1]*step);
   });
   window.addEventListener('resize',()=>{if(point)move(point.x,point.y,true);});
+  new ResizeObserver(()=>{if(point)move(point.x,point.y,true);}).observe(element);
 }
 (() => {
   const section = document.querySelector('.floating-couple');
   if (!section) return;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setupSizing(section);
   setupDragging(section, reduced);
   if (reduced || !window.gsap || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
