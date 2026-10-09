@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dance-floating.css">
+  <link rel="stylesheet" href="floating-countdown.css">
   <script defer src="vendor/gsap.min.js"></script><script defer src="vendor/ScrollTrigger.min.js"></script><script defer src="app.js"></script>
   <script defer src="dance.js"></script>
 </head>
@@ -27,7 +28,8 @@
   <section class="rsvp section" id="rsvp"><span class="little-star reveal">✳</span><div class="section-heading reveal"><span class="eyebrow">IT WOULDN'T BE THE SAME WITHOUT YOU</span><h2>Save your <em>seat.</em></h2><p>Kindly let us know by May 1, 2027.</p></div><form id="rsvp-form" class="reveal"><div class="form-row"><label>Your full name<input name="name" autocomplete="name" placeholder="First & last name" required maxlength="120"></label><label>Email address<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required></label></div><div class="form-row"><label>Will you be joining us?<select name="attendance" required><option value="" disabled selected>Select your response</option><option value="yes">Joyfully accepts</option><option value="no">Regretfully declines</option></select></label><label id="guest-label">Number of guests<select name="guests"><option value="1">Just me</option><option value="2">Two of us</option></select></label></div><label>A little note <span class="optional">(optional)</span><textarea name="note" placeholder="Dietary needs, a song request, or just a little love…" rows="2" maxlength="1000"></textarea></label><button class="dark-button" type="submit">Send with love <span>↗</span></button><p class="form-note">Sample invitation · Your response is saved on this device only.</p><p class="form-message" id="form-message" role="status" tabindex="-1"></p></form></section>
   </main>
   <footer><a class="monogram" href="#home">E<span>&</span>J</a><p>JUNE 12, 2027 · TUSCANY, ITALY</p><span>With love, always.</span><p class="demo-note">A sample invitation, made for your own love story.</p></footer>
-  <aside class="floating-couple" id="floating-couple" tabindex="0" role="group" aria-label="Floating bride and groom. Drag to move, or use arrow keys when focused." aria-describedby="couple-help">
+  <aside class="floating-couple" id="floating-couple" tabindex="0" role="group" aria-label="Floating bride and groom with the wedding date and live countdown. Drag to move, or use arrow keys when focused." aria-describedby="couple-help">
+    <div class="couple-content">
     <svg class="dance-art" viewBox="265 105 425 395" aria-hidden="true">
         <defs><linearGradient id="dress-shade" x1="0" x2="1"><stop stop-color="#e6e8d8"/><stop offset=".45" stop-color="#fffdf5"/><stop offset="1" stop-color="#f1f0e3"/></linearGradient></defs>
         <ellipse class="dance-floor" cx="450" cy="479" rx="208" ry="13" opacity=".5"/>
@@ -66,7 +68,18 @@
         </g></g></g></g>
         <path class="fine-line" d="M360 507h180" opacity=".7"/><text x="450" y="532" text-anchor="middle" fill="#82916c" font-family="Cormorant Garamond, Georgia, serif" font-size="18" font-style="italic">Emma & James</text>
       </svg>
+    <div class="floating-wedding-clock">
+      <time class="floating-wedding-date" id="floating-wedding-date" datetime="2027-06-12T16:00:00+02:00">June 12, 2027</time>
+      <div class="floating-countdown" aria-label="Time until the wedding" aria-live="off">
+        <div><span data-countdown="days">000</span><small>DAYS</small></div><b aria-hidden="true">:</b>
+        <div><span data-countdown="hours">00</span><small>HRS</small></div><b aria-hidden="true">:</b>
+        <div><span data-countdown="minutes">00</span><small>MIN</small></div><b aria-hidden="true">:</b>
+        <div><span data-countdown="seconds">00</span><small>SEC</small></div>
+      </div>
+      <p class="floating-wedding-message" id="floating-wedding-message" hidden>Our wedding day is here!</p>
+    </div>
     <div class="couple-grip"><span aria-hidden="true">⠿</span> drag to move</div>
-    <p class="couple-help" id="couple-help">The couple stays with you as you scroll. Drag with your mouse or finger to move them. Use the arrow keys when focused.</p>
+    </div>
+    <p class="couple-help" id="couple-help">The couple, wedding date, and countdown stay together as you scroll. Drag with your mouse or finger to move them. Use the arrow keys when focused.</p>
   </aside>
 </body></html>

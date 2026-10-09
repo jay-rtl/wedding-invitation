@@ -1,21 +1,31 @@
 // Personalize the sample invitation here. This date includes the wedding's UTC offset.
-const WEDDING = { date: '2027-06-12T16:00:00+02:00', names: 'Emma & James' };
+const WEDDING = { date: '2027-06-12T16:00:00+02:00', timeZone: 'Europe/Rome', names: 'Emma & James' };
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hasGSAP = typeof window.gsap !== 'undefined';
-const timeNodes = ['days','hours','minutes','seconds'].map(id => document.getElementById(id));
+const timeNodes = ['days','hours','minutes','seconds'].map(id => [...document.querySelectorAll(`#${id}, [data-countdown="${id}"]`)]);
+const floatingDate = document.getElementById('floating-wedding-date');
+if (floatingDate) {
+  floatingDate.dateTime = WEDDING.date;
+  floatingDate.textContent = new Intl.DateTimeFormat('en-US', {month:'long',day:'numeric',year:'numeric',timeZone:WEDDING.timeZone}).format(new Date(WEDDING.date));
+}
 let previous = [];
 function updateCountdown() {
   const remaining = Math.max(0, new Date(WEDDING.date).getTime() - Date.now());
   const total = Math.floor(remaining / 1000);
   const values = [Math.floor(total/86400), Math.floor(total%86400/3600), Math.floor(total%3600/60), total%60];
   values.forEach((value, index) => {
-    const node = timeNodes[index];
     if (previous[index] === value) return;
-    node.textContent = String(value).padStart(index === 0 ? 3 : 2, '0');
-    if (previous.length && hasGSAP && !reduceMotion) gsap.fromTo(node, {y:5,opacity:.55}, {y:0,opacity:1,duration:.4,ease:'power2.out',overwrite:true});
+    timeNodes[index].forEach(node => {
+      node.textContent = String(value).padStart(index === 0 ? 3 : 2, '0');
+      if (previous.length && hasGSAP && !reduceMotion) gsap.fromTo(node, {y:node.hasAttribute('data-countdown')?2:5,opacity:.55}, {y:0,opacity:1,duration:.4,ease:'power2.out',overwrite:true});
+    });
   });
   previous = values;
-  if (remaining === 0) document.querySelector('.countdown-caption').textContent = 'Our wedding day is here. Let the celebration begin!';
+  if (remaining === 0) {
+    document.querySelector('.countdown-caption').textContent = 'Our wedding day is here. Let the celebration begin!';
+    const floatingMessage = document.getElementById('floating-wedding-message');
+    if (floatingMessage) floatingMessage.hidden = false;
+  }
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);

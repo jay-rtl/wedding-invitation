@@ -10,18 +10,26 @@ try {
     await page.goto('http://localhost:3000',{waitUntil:'networkidle'});
     await page.waitForTimeout(4300);
     const couple=page.locator('.floating-couple');
+    assert.equal(await couple.locator('time').textContent(),'June 12, 2027');
+    const secondsBefore=await couple.locator('[data-countdown=seconds]').textContent();
+    await page.waitForTimeout(1200);
+    assert.notEqual(await couple.locator('[data-countdown=seconds]').textContent(),secondsBefore,'Floating countdown updates live');
+    assert.equal(await page.evaluate(()=>['days','hours','minutes','seconds'].every(id=>document.getElementById(id).textContent===document.querySelector(`[data-countdown="${id}"]`).textContent)),true,'Both countdowns stay synchronized');
     const initial=await couple.boundingBox();
     assert.equal(await page.locator('.dance-section,.pin-spacer').count(),0,'No pinned dance section');
     const poses=[];
     for(const progress of [.1,.45,.8]){
-      await page.evaluate(progress=>window.scrollTo(0,(document.documentElement.scrollHeight-innerHeight)*progress),progress);
-      await page.waitForTimeout(1000);
+      await page.evaluate(progress=>{
+        const dance=ScrollTrigger.getById('wedding-dance');
+        window.scrollTo({top:dance.start+(dance.end-dance.start)*progress,behavior:'instant'});
+      },progress);
+      await page.waitForTimeout(1200);
       const box=await couple.boundingBox();
       assert.ok(Math.abs(box.y-initial.y)<2 && Math.abs(box.x-initial.x)<2,'Couple remains fixed during scroll');
       poses.push(await page.locator('#bride-body').getAttribute('transform'));
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     }
-    assert.ok(new Set(poses).size>1,'Dancing changes with scrolling');
+    assert.ok(new Set(poses).size>1,`Dancing changes with scrolling at ${width}px`);
     const dx=width===390?-120:-250,dy=-140;
     const x=initial.x+initial.width/2,y=initial.y+initial.height/2;
     if(width===390){
@@ -48,6 +56,7 @@ try {
   const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
   await reduced.goto('http://localhost:3000',{waitUntil:'networkidle'});
   assert.equal(await reduced.locator('.dance-art').evaluate(el=>getComputedStyle(el).animationName),'none');
+  assert.equal(await reduced.locator('.couple-content').evaluate(el=>getComputedStyle(el).animationName),'none');
   const pose=await reduced.locator('#bride-body').getAttribute('transform');
   await reduced.evaluate(()=>window.scrollTo(0,2000));
   assert.equal(await reduced.locator('#bride-body').getAttribute('transform'),pose);

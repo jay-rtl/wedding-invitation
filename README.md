@@ -4,7 +4,7 @@ Hosted with GitHub Pages. Push changes to `main` to automatically deploy the con
 
 An ivory and olive wedding invitation with a generated Tuscan garden image, a GSAP animated monogram introduction, scroll reveals, image parallax, and a countdown that updates each second.
 
-The illustrated bride and groom float in a fixed corner throughout the invitation. Scrolling smoothly controls their dance. Drag them anywhere with a mouse or finger; arrow keys also move them when focused. Their position stays inside the viewport and is preserved while scrolling. Reduced-motion visitors can still move the couple, with decorative animation disabled. Run `node verify-dance.mjs` to check the floating interaction in desktop and mobile Chrome.
+The illustrated bride and groom float together with the wedding date and live countdown in a fixed corner throughout the invitation. Both countdown displays use the same wedding date and update every second. Scrolling smoothly controls their dance. Drag the entire group anywhere with a mouse or finger; arrow keys also move it when focused. Its position stays inside the viewport and is preserved while scrolling. Reduced-motion visitors can still move the group, with decorative animation disabled. Run `node verify-dance.mjs` to check the floating interaction in desktop and mobile Chrome.
 
 Run `npm start` and open http://localhost:3000. No installation or build is required. To repeat browser checks after installing development dependencies, run `node verify.mjs` with Google Chrome installed at its default Windows location.
 
