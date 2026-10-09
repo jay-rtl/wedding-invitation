@@ -1,0 +1,38 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+import {mkdir} from 'node:fs/promises';
+await mkdir('test-results',{recursive:true});
+const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+try {
+  const page=await browser.newPage({viewport:{width:1440,height:1050}});
+  const errors=[]; page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('http://127.0.0.1:3000',{waitUntil:'networkidle'});
+  await page.waitForTimeout(4300);
+  assert.equal(await page.locator('.entrance').count(),0,'Entrance completes');
+  assert.equal(await page.locator('.hero-image img').evaluate(image=>image.naturalWidth>0),true);
+  assert.equal(await page.evaluate(()=>typeof gsap),'object');
+  const before=await page.locator('#seconds').textContent();await page.waitForTimeout(1200);
+  assert.notEqual(await page.locator('#seconds').textContent(),before,'Countdown ticks');
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+  await page.screenshot({path:'test-results/desktop.png'});
+  await page.locator('details').nth(1).locator('summary').click();
+  assert.equal(await page.locator('details').nth(1).getAttribute('open'),'');
+  await page.locator('[name=name]').fill('Alex Guest');
+  await page.locator('[name=email]').fill('alex@example.com');
+  await page.locator('[name=attendance]').selectOption('yes');
+  await page.locator('[name=guests]').selectOption('2');
+  await page.locator('button[type=submit]').click();
+  assert.match(await page.locator('#form-message').textContent(),/Alex Guest/);
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('emma-james-rsvp')).guests),'2');
+  await page.locator('[name=attendance]').selectOption('no');
+  assert.equal(await page.locator('[name=guests]').isDisabled(),true);
+  await page.reload({waitUntil:'networkidle'});
+  assert.equal(await page.locator('[name=name]').inputValue(),'Alex Guest');
+  const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,reducedMotion:'reduce'});
+  await mobile.goto('http://127.0.0.1:3000',{waitUntil:'networkidle'});
+  assert.equal(await mobile.locator('.entrance').isVisible(),false);
+  assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'No mobile horizontal overflow');
+  await mobile.screenshot({path:'test-results/mobile.png',fullPage:true});
+  assert.deepEqual(errors,[],'No browser errors');
+  console.log('PASS: GSAP entrance, generated image, live countdown, accordion, RSVP save and restore, declining state, desktop/mobile overflow, reduced motion, and browser errors.');
+} finally {await browser.close();}

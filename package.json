@@ -1,0 +1,1 @@
+{"name":"emma-james-wedding","private":true,"scripts":{"dev":"node server.mjs","start":"node server.mjs","check":"node --check dist/app.js"},"devDependencies":{"playwright":"^1.64.0"}}
