@@ -8,7 +8,9 @@ try {
     const page=await browser.newPage({viewport:{width,height:width===390?844:1000},hasTouch:width===390,isMobile:width===390});
     const errors=[];page.on('pageerror',e=>errors.push(e.message));
     await page.goto('http://localhost:3000',{waitUntil:'networkidle'});
-    await page.waitForTimeout(4300);
+    await page.locator('.invitation-scene[data-state=waiting]').waitFor();
+    await page.locator('#open-invitation').press('Enter');
+    await page.locator('.invitation-scene').waitFor({state:'detached'});
     const couple=page.locator('.floating-couple');
     const defaultWidth=(await couple.boundingBox()).width;
     assert.equal(await couple.getAttribute('data-size'),'medium');
@@ -65,11 +67,16 @@ try {
     await page.locator('#couple-larger').click();await page.waitForTimeout(250);
     const resized=await couple.boundingBox();assert.ok(resized.x+resized.width<=320&&resized.y+resized.height<=500,'Enlarging a dragged group keeps it inside screen');
     await page.reload({waitUntil:'networkidle'});
+    await page.locator('.invitation-scene[data-state=waiting]').waitFor();
+    await page.locator('#open-invitation').press('Enter');
+    await page.locator('.invitation-scene').waitFor({state:'detached'});
     assert.equal(await couple.getAttribute('data-size'),'large','Visitor size preference survives reload');
     assert.deepEqual(errors,[]);await page.close();
   }
   const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
   await reduced.goto('http://localhost:3000',{waitUntil:'networkidle'});
+  await reduced.locator('#open-invitation').click();
+  await reduced.locator('.invitation-scene').waitFor({state:'detached'});
   assert.equal(await reduced.locator('.dance-art').evaluate(el=>getComputedStyle(el).animationName),'none');
   assert.equal(await reduced.locator('.couple-content').evaluate(el=>getComputedStyle(el).animationName),'none');
   const pose=await reduced.locator('#bride-body').getAttribute('transform');

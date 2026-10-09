@@ -140,7 +140,7 @@ function setupDragging(element, reduced) {
   gsap.to(dance,{totalTime:dance.duration()*5,ease:'none',scrollTrigger:{
     id:'wedding-dance',trigger:'main',start:'top top',end:'bottom bottom',scrub:.8,invalidateOnRefresh:true
   }});
-  gsap.from(section,{opacity:0,duration:.7,delay:3.2});
+  document.addEventListener('wedding:reveal',()=>gsap.from(section,{opacity:0,duration:.7}),{once:true});
   const refresh = () => ScrollTrigger.refresh();
   window.addEventListener('load',refresh,{once:true});
   if(document.fonts) document.fonts.ready.then(refresh);

@@ -1,1 +1,1 @@
-{"name":"emma-james-wedding","private":true,"scripts":{"dev":"node server.mjs","start":"node server.mjs","check":"node --check dist/app.js"},"devDependencies":{"playwright":"^1.64.0"}}
+{"name":"emma-james-wedding","private":true,"scripts":{"dev":"node server.mjs","start":"node server.mjs","check":"node --check dist/app.js && node --check dist/dance.js && node --check dist/envelope.js && node --check server.mjs"},"devDependencies":{"playwright":"^1.64.0"}}

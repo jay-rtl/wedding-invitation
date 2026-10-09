@@ -9,11 +9,39 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dance-floating.css">
   <link rel="stylesheet" href="floating-countdown.css">
-  <script defer src="vendor/gsap.min.js"></script><script defer src="vendor/ScrollTrigger.min.js"></script><script defer src="app.js"></script>
+  <link rel="stylesheet" href="envelope.css">
+  <script>document.documentElement.classList.add('invitation-locked');</script>
+  <script defer src="vendor/gsap.min.js"></script><script defer src="vendor/ScrollTrigger.min.js"></script><script defer src="envelope.js"></script><script defer src="app.js"></script>
   <script defer src="dance.js"></script>
 </head>
 <body>
   <div class="entrance" aria-hidden="true"><div class="entrance-mark"><svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="83"/><path d="M90 2v12M90 166v12M2 90h12M166 90h12"/></svg><span>E<i>&</i>J</span></div><p>A BEAUTIFUL BEGINNING</p></div>
+  <section class="invitation-scene" id="invitation-scene" role="dialog" aria-modal="true" aria-labelledby="invitation-scene-title" tabindex="-1" data-state="loading" hidden>
+    <div class="scene-intro">
+      <span class="eyebrow">EMMA & JAMES · A BEAUTIFUL BEGINNING</span>
+      <h2 id="invitation-scene-title">A Special Invitation <em>For You</em></h2>
+      <span class="scene-rule" aria-hidden="true"></span>
+    </div>
+    <div class="envelope-stage">
+      <div class="envelope-shadow" aria-hidden="true"></div>
+      <div class="envelope-float">
+        <button type="button" class="envelope-button" id="open-invitation" aria-label="Open your wedding invitation from Emma and James" aria-describedby="envelope-hint" disabled>
+          <span class="envelope-back paper" aria-hidden="true"></span>
+          <span class="invitation-card paper" aria-hidden="true">
+            <span class="card-border"></span>
+            <span class="card-monogram">E <i>&</i> J</span>
+            <span class="card-copy"><span class="card-title">You're Invited</span><span class="card-subtitle">To Celebrate Our Wedding</span><span class="card-signature">Emma & James</span></span>
+            <svg class="card-botanical" viewBox="0 0 140 35" aria-hidden="true"><path d="M12 24q59-20 116 0M50 16q-6-14-16-7 1 11 16 7M71 15q4-16 13-12 1 12-13 12M94 18q8-12 17-5-3 10-17 5"/></svg>
+          </span>
+          <span class="envelope-pocket" aria-hidden="true"><span class="envelope-left paper"></span><span class="envelope-right paper"></span><span class="envelope-bottom paper"></span><svg class="envelope-seams" viewBox="0 0 400 258" preserveAspectRatio="none"><path d="M0 258L200 124L400 258M0 0L200 151L400 0"/></svg></span>
+          <span class="envelope-flap" aria-hidden="true"><span class="flap-front paper"></span><span class="flap-back paper"></span></span>
+          <span class="wax-seal" aria-hidden="true"><span class="wax-rim"></span><span class="wax-initials">E<i>&</i>J</span><svg viewBox="0 0 60 60"><path d="M16 42q-10-15 1-25M44 42q10-15-1-25M14 28l-3-5m3 11-4-3m5 8-5-1M46 28l3-5m-3 11 4-3m-5 8 5-1"/></svg></span>
+        </button>
+      </div>
+    </div>
+    <p class="envelope-hint" id="envelope-hint"><span class="hint-arrow" aria-hidden="true">↑</span>Tap to Open Your Invitation</p>
+    <p class="envelope-announcement" role="status" aria-live="polite"></p>
+  </section>
   <header class="header"><a href="#home" class="monogram" aria-label="Emma and James home">E<span>&</span>J</a><nav aria-label="Main navigation"><a href="#story">Our story</a><a href="#celebration">The celebration</a><a href="#details">The details</a></nav><a href="#rsvp" class="nav-rsvp">Kindly RSVP <span>↗</span></a></header>
   <main>
   <section class="hero" id="home">

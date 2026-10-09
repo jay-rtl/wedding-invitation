@@ -31,13 +31,27 @@ updateCountdown();
 setInterval(updateCountdown, 1000);
 document.addEventListener('visibilitychange', () => {if (!document.hidden) updateCountdown();});
 
-if (hasGSAP && !reduceMotion) {
+let homepageRevealed=false;
+function revealWeddingHomepage() {
+  if(homepageRevealed)return;
+  homepageRevealed=true;
+  if(!hasGSAP||reduceMotion)return;
   gsap.registerPlugin(ScrollTrigger);
+  gsap.timeline()
+    .from('.header',{y:-15,opacity:0,duration:.65},0)
+    .from('.hero-top,.hero-title',{y:25,opacity:0,duration:.9,stagger:.15,ease:'power3.out'},.1)
+    .from('.hero-image',{clipPath:'inset(12% 0 0 0)',opacity:0,duration:1.1,ease:'power3.out'},.2)
+    .from('.image-copy>*',{y:20,opacity:0,duration:.8,stagger:.1,ease:'power3.out'},.4);
+  gsap.utils.toArray('.reveal').forEach(element => gsap.from(element,{y:32,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:element,start:'top 91%',once:true}}));
+  gsap.fromTo('.hero-image>img',{scale:1.06,yPercent:-3},{scale:1.12,yPercent:5,ease:'none',scrollTrigger:{trigger:'.hero-image',start:'top bottom',end:'bottom top',scrub:1.2}});
+  gsap.to('.scroll-cue',{y:6,duration:1.5,yoyo:true,repeat:-1,ease:'sine.inOut'});
+}
+document.addEventListener('wedding:reveal',revealWeddingHomepage,{once:true});
+
+if (hasGSAP && !reduceMotion) {
   const entrance = document.querySelector('.entrance');
   entrance.classList.add('active');
-  // The overlay never blocks navigation if an animation is interrupted.
-  const failsafe = setTimeout(() => entrance.remove(), 4500);
-  const timeline = gsap.timeline({onComplete:()=>{clearTimeout(failsafe);entrance.remove();ScrollTrigger.refresh();}});
+  const timeline = gsap.timeline({onComplete:()=>{entrance.remove();window.WeddingEnvelope?.show();}});
   const circle = entrance.querySelector('circle');
   const length = circle.getTotalLength();
   gsap.set(circle, {strokeDasharray:length,strokeDashoffset:length});
@@ -45,15 +59,17 @@ if (hasGSAP && !reduceMotion) {
     .from('.entrance-mark>span',{opacity:0,y:15,duration:.8,ease:'power3.out'},.25)
     .from('.entrance p',{opacity:0,y:8,duration:.6},.6)
     .to('.entrance-mark,.entrance p',{opacity:0,y:-18,duration:.5,stagger:.06},1.5)
-    .to(entrance,{yPercent:-100,duration:.9,ease:'power3.inOut'},1.75)
-    .from('.header',{y:-15,opacity:0,duration:.65},2.1)
-    .from('.hero-top,.hero-title',{y:25,opacity:0,duration:.9,stagger:.15,ease:'power3.out'},2.2)
-    .from('.hero-image',{clipPath:'inset(12% 0 0 0)',opacity:0,duration:1.1,ease:'power3.out'},2.3)
-    .from('.image-copy>*',{y:20,opacity:0,duration:.8,stagger:.1,ease:'power3.out'},2.5);
-  gsap.utils.toArray('.reveal').forEach(element => gsap.from(element,{y:32,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:element,start:'top 91%',once:true}}));
-  gsap.fromTo('.hero-image>img',{scale:1.06,yPercent:-3},{scale:1.12,yPercent:5,ease:'none',scrollTrigger:{trigger:'.hero-image',start:'top bottom',end:'bottom top',scrub:1.2}});
-  gsap.to('.scroll-cue',{y:6,duration:1.5,yoyo:true,repeat:-1,ease:'sine.inOut'});
+    .to(entrance,{yPercent:-100,duration:.9,ease:'power3.inOut'},1.75);
+}else{
+  document.querySelector('.entrance')?.remove();
+  window.WeddingEnvelope?.show();
 }
+
+document.querySelectorAll('.accordions details').forEach(details=>{
+  details.addEventListener('toggle',()=>{
+    if(details.open&&hasGSAP&&!reduceMotion)gsap.fromTo(details.querySelector('div'),{opacity:0,y:-6},{opacity:1,y:0,duration:.35,ease:'power2.out',overwrite:true});
+  });
+});
 
 const form = document.getElementById('rsvp-form');
 const attendance = form.elements.attendance;

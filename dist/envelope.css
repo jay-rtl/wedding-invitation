@@ -1,0 +1,51 @@
+html.invitation-locked,html.invitation-locked body{overflow:hidden;overscroll-behavior:none}
+.invitation-scene[hidden]{display:none}
+.invitation-scene{--envelope-width:min(78vw,400px,52svh);position:fixed;inset:0;z-index:90;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:max(24px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));overflow:hidden;background:#f4f2e8;isolation:isolate}
+.invitation-scene:before{content:'';position:absolute;inset:-25px;z-index:-2;background:url('assets/garden.png') center/cover;filter:blur(12px) saturate(.5);opacity:.085}
+.invitation-scene:after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,#fffdf240 20%,#ede9dd85 100%)}
+.invitation-scene[data-state="loading"]{visibility:hidden}
+.scene-intro{text-align:center;position:absolute;top:max(32px,min(12svh,100px));left:50%;transform:translateX(-50%);z-index:2;width:calc(100% - 40px);max-width:650px}
+.scene-intro .eyebrow{font-size:9px;letter-spacing:2.1px;color:#7f876e}
+.scene-intro h2{font-size:clamp(27px,3.7vw,41px);line-height:1.1;letter-spacing:-.8px;margin:13px 0 0}
+.scene-intro h2 em{white-space:nowrap}
+.scene-rule{display:block;width:36px;height:1px;background:#b6bea3;margin:20px auto 0}
+.envelope-stage{width:var(--envelope-width);height:calc(var(--envelope-width)*1.12 + 20px);position:absolute;top:calc(50% - var(--envelope-width)*.7974 + 6px);left:50%;transform:translateX(-50%);flex-shrink:0;perspective:1200px}
+.envelope-float{position:absolute;left:0;right:0;bottom:26px;will-change:transform}
+.envelope-button{display:block;width:100%;aspect-ratio:1.55;position:relative;padding:0;border:0;border-radius:2px;background:none;cursor:pointer;color:var(--ink);perspective:1100px;transform-style:preserve-3d;box-shadow:0 16px 32px #45452f14,0 3px 8px #45452f14;outline-offset:10px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.envelope-button:disabled{cursor:default}
+.envelope-button:focus-visible{outline:1px solid #9ca485}
+.paper{background-color:#f5f0e3;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' opacity='.055' filter='url(%23grain)'/%3E%3C/svg%3E")}
+.envelope-back{position:absolute;inset:0;z-index:0;border:1px solid #ddd5c3;border-radius:3px;background-color:#e9e1cf;box-shadow:inset 0 2px 5px #6a614526}
+.envelope-pocket{position:absolute;inset:0;z-index:4;pointer-events:none}
+.envelope-left,.envelope-right,.envelope-bottom{position:absolute;inset:0;display:block}
+.envelope-left{clip-path:polygon(0 0,57% 54%,0 100%);background-color:#eee7d7}
+.envelope-right{clip-path:polygon(100% 0,43% 54%,100% 100%);background-color:#f1ebdd}
+.envelope-bottom{clip-path:polygon(0 100%,50% 48%,100% 100%);background-color:#f6f1e6}
+.envelope-seams{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:#cfc6b1;stroke-width:.65;opacity:.65}
+.envelope-flap{position:absolute;left:0;top:0;width:100%;height:62%;z-index:6;transform-origin:center top;transform-style:preserve-3d;will-change:transform}
+.flap-front,.flap-back{position:absolute;inset:0;clip-path:polygon(0 0,100% 0,50% 97%);backface-visibility:hidden;-webkit-backface-visibility:hidden;background-color:#f7f2e8}
+.flap-front{filter:drop-shadow(0 2px 1px #75674c25)}
+.flap-back{transform:rotateX(180deg);background-color:#e9e1d0}
+.wax-seal{--seal-size:64px;position:absolute;left:calc(50% - var(--seal-size)/2);top:calc(52% - var(--seal-size)/2);width:var(--seal-size);height:var(--seal-size);z-index:7;display:grid;place-items:center;border-radius:47% 53% 50% 48% / 51% 47% 53% 49%;background:#8c9973;box-shadow:inset 1px 2px 2px #bfcb9b95,inset -2px -3px 3px #4f5c3e70,0 3px 5px #534c3338;border:1px solid #7d8a63;transform:rotate(-7deg)}
+.wax-rim{position:absolute;inset:6px;border:1px solid #bbc69675;border-radius:50%;box-shadow:0 1px 1px #64754a60}
+.wax-initials{font-family:var(--serif);font-size:23px;color:#e7eacb;text-shadow:0 1px 0 #5e714a;letter-spacing:-2px;margin-top:-2px}
+.wax-initials i{font-size:16px;padding:0 3px}
+.wax-seal svg{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);fill:none;stroke:#c7d1a18c;stroke-width:.7}
+.invitation-card{position:absolute;z-index:2;top:8px;left:6%;width:88%;height:89%;display:flex;align-items:center;flex-direction:column;padding:20px 16px 12px;background-color:#fffdf4;border:1px solid #d9d5c6;box-shadow:0 2px 10px #6d654622;opacity:0;visibility:hidden;will-change:transform}
+.card-border{position:absolute;inset:9px;border:1px solid #c4cbb58c;pointer-events:none}
+.card-monogram{font-family:var(--serif);font-size:23px;letter-spacing:-1px;color:#84916e;line-height:1.1;margin-bottom:18px}
+.card-monogram i{font-size:18px}
+.card-copy{display:flex;flex-direction:column;align-items:center;gap:11px;width:100%}
+.card-copy>span{opacity:0}
+.card-title{font-family:var(--serif);font-size:clamp(27px,5.5vw,44px);font-weight:400;letter-spacing:-1px;white-space:nowrap;line-height:1.1}
+.card-subtitle{font-size:clamp(8px,1.8vw,9px);letter-spacing:1.35px;text-transform:uppercase;white-space:nowrap;color:#7a8269}
+.card-signature{font-family:var(--serif);font-size:21px;font-style:italic;margin-top:3px}
+.card-botanical{width:95px;height:24px;fill:none;stroke:#a6b28b;stroke-width:1;position:absolute;bottom:15px}
+.envelope-shadow{position:absolute;bottom:0;left:12%;width:76%;height:15px;background:#6a705347;filter:blur(10px);border-radius:50%;opacity:.45;will-change:transform,opacity}
+.envelope-hint{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;font-size:9px;letter-spacing:1.65px;text-transform:uppercase;color:#788264;position:absolute;top:calc(50% + var(--envelope-width)/3.1 + 44px);left:50%;transform:translateX(-50%);width:calc(100% - 40px);z-index:2;line-height:1.5}
+.hint-arrow{font-size:22px;line-height:1;letter-spacing:0;color:#8d987a}
+.envelope-announcement{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.invitation-scene[data-state="opening"] .scene-intro{pointer-events:none}
+@media(max-width:600px){.invitation-scene{gap:15px}.scene-intro{max-width:300px}.scene-intro .eyebrow{font-size:7px;letter-spacing:1.5px}.scene-intro h2{font-size:31px;max-width:270px;margin:12px auto 0}.scene-rule{margin-top:16px}.envelope-hint{font-size:8px;letter-spacing:1.2px}.wax-seal{--seal-size:53px}.wax-initials{font-size:20px}.card-monogram{font-size:18px;margin-bottom:13px}.invitation-card{padding:17px 10px 10px}.card-copy{gap:8px}.card-signature{font-size:18px}.card-subtitle{letter-spacing:.9px}.card-botanical{width:72px;height:20px;bottom:8px}}
+@media(max-height:620px){.invitation-scene{gap:10px;padding-top:16px;padding-bottom:16px}.scene-intro h2{font-size:27px}.scene-rule{margin-top:12px}.envelope-hint{gap:5px}.card-monogram{margin-bottom:10px}.card-copy{gap:7px}.card-signature{font-size:17px}.card-botanical{height:10px;bottom:6px}}
+@media(prefers-reduced-motion:reduce){.envelope-float,.envelope-shadow,.envelope-flap,.invitation-card{will-change:auto}}

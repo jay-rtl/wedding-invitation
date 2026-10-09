@@ -2,6 +2,8 @@
 
 Hosted with GitHub Pages. Push changes to `main` to automatically deploy the contents of `dist/`. Deployment progress appears under the repository's Actions tab.
 
+The existing monogram entrance now leads to a floating stationery envelope. It waits for a click, tap, Enter, or Space before releasing its wax seal, opening its flap, and revealing an invitation card. The homepage appears after this reveal. Scrolling and background focus are locked until opening finishes. Reduced-motion and unavailable-GSAP fallbacks preserve the deliberate opening and a readable invitation. Refreshing starts the sequence again; no saved preference skips it. Run `node verify-envelope.mjs` for envelope checks, then the existing `node verify.mjs` and `node verify-dance.mjs` for regression checks. This is a buildless static site; `npm run check` verifies the JavaScript, and browser tests check assets and behavior.
+
 The floating group starts at a compact size. Visitors can use its minus and plus buttons to choose small, medium, or large; their preference is saved on their device. Resizing keeps a dragged group within the screen.
 
 An ivory and olive wedding invitation with a generated Tuscan garden image, a GSAP animated monogram introduction, scroll reveals, image parallax, and a countdown that updates each second.

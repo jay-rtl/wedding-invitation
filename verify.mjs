@@ -7,7 +7,10 @@ try {
   const page=await browser.newPage({viewport:{width:1440,height:1050}});
   const errors=[]; page.on('pageerror',error=>errors.push(error.message));
   await page.goto('http://127.0.0.1:3000',{waitUntil:'networkidle'});
-  await page.waitForTimeout(4300);
+  await page.locator('.invitation-scene[data-state=waiting]').waitFor();
+  await page.locator('#open-invitation').press('Enter');
+  await page.locator('.invitation-scene').waitFor({state:'detached'});
+  await page.waitForTimeout(1000);
   assert.equal(await page.locator('.entrance').count(),0,'Entrance completes');
   assert.equal(await page.locator('.hero-image img').evaluate(image=>image.naturalWidth>0),true);
   assert.equal(await page.evaluate(()=>typeof gsap),'object');
@@ -27,9 +30,14 @@ try {
   await page.locator('[name=attendance]').selectOption('no');
   assert.equal(await page.locator('[name=guests]').isDisabled(),true);
   await page.reload({waitUntil:'networkidle'});
+  await page.locator('.invitation-scene[data-state=waiting]').waitFor();
+  await page.locator('#open-invitation').press('Enter');
+  await page.locator('.invitation-scene').waitFor({state:'detached'});
   assert.equal(await page.locator('[name=name]').inputValue(),'Alex Guest');
   const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,reducedMotion:'reduce'});
   await mobile.goto('http://127.0.0.1:3000',{waitUntil:'networkidle'});
+  await mobile.locator('#open-invitation').click();
+  await mobile.locator('.invitation-scene').waitFor({state:'detached'});
   assert.equal(await mobile.locator('.entrance').isVisible(),false);
   assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'No mobile horizontal overflow');
   await mobile.screenshot({path:'test-results/mobile.png',fullPage:true});
