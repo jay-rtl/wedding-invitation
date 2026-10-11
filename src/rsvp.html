@@ -1,0 +1,49 @@
+<form id="rsvp-form">
+  <div class="form-row">
+    <label
+      >Your full name<input
+        name="name"
+        autocomplete="name"
+        placeholder="First & last name"
+        required
+        maxlength="120" /></label
+    ><label
+      >Email address<input
+        name="email"
+        type="email"
+        maxlength="254"
+        autocomplete="email"
+        placeholder="you@example.com"
+        required
+    /></label>
+  </div>
+  <div class="form-row">
+    <label
+      >Will you be joining us?<select name="attendance" required>
+        <option value="" disabled selected>Select your response</option>
+        <option value="yes">Joyfully accepts</option>
+        <option value="no">Regretfully declines</option>
+      </select></label
+    ><label id="guest-label"
+      >Number of guests<select name="guests">
+        <option value="1">Just me</option>
+        <option value="2">Two of us</option>
+      </select></label
+    >
+  </div>
+  <label
+    >A little note <span class="optional">(optional)</span
+    ><textarea
+      name="note"
+      placeholder="Dietary needs, a song request, or just a little love…"
+      rows="2"
+      maxlength="1000"
+    ></textarea></label
+  ><button class="dark-button" type="submit">
+    Save demo response <span>↗</span>
+  </button>
+  <p class="form-note">
+    Sample invitation · Your response is saved on this device only.
+  </p>
+  <p class="form-message" id="form-message" role="status" tabindex="-1"></p>
+</form>

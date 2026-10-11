@@ -23,10 +23,10 @@ jobs:
     steps:
       - name: Check out the invitation
         uses: actions/checkout@v6
-      - name: Check JavaScript
+      - name: Build invitation and check JavaScript
         run: |
-          node --check dist/app.js
-          node --check dist/dance.js
+          npm run build
+          npm run check
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload the invitation

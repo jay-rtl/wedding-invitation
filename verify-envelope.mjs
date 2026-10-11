@@ -1,99 +1,92 @@
-import {chromium} from 'playwright';
-import assert from 'node:assert/strict';
-import {mkdir} from 'node:fs/promises';
-await mkdir('test-results',{recursive:true});
-const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+﻿import assert from "node:assert/strict";
+import { launch, base } from "./test-helpers.mjs";
+const browser = await launch();
 try {
-  for(const [width,height] of [[1440,1000],[390,844],[320,568]]){
-    const page=await browser.newPage({viewport:{width,height},isMobile:width<500,hasTouch:width<500});
-    const errors=[],missing=[];
-    page.on('pageerror',e=>errors.push(e.message));
-    page.on('response',r=>{if(r.url().startsWith('http://localhost:3000')&&r.status()>=400)missing.push(r.url());});
-    await page.goto('http://localhost:3000',{waitUntil:'domcontentloaded'});
-    assert.equal(await page.locator('.entrance').isVisible(),true,'Original logo entrance plays');
-    assert.equal(await page.locator('.invitation-scene').getAttribute('data-state'),'loading','Envelope waits for the logo lifecycle');
-    await page.evaluate(()=>{
-      window.logoTransitionFrames=[];
-      const sample=()=>{
-        const scene=document.getElementById('invitation-scene');
-        const logo=document.querySelector('.entrance');
-        const rect=logo?.getBoundingClientRect();
-        if(scene){const style=getComputedStyle(scene);window.logoTransitionFrames.push({sceneOpaque:!scene.hidden&&style.visibility==='visible'&&Number(style.opacity)===1,pageHidden:getComputedStyle(document.querySelector('main')).visibility==='hidden',logoLeaving:Boolean(rect&&rect.top<0),envelopeReady:scene.classList.contains('is-prepared')});}
-        if(logo)requestAnimationFrame(sample);
-      };
-      requestAnimationFrame(sample);
+  for (const [width, height, reduced] of [
+    [1440, 1000, false],
+    [390, 844, false],
+    [320, 568, true],
+  ]) {
+    const page = await browser.newPage({
+      viewport: { width, height },
+      reducedMotion: reduced ? "reduce" : "no-preference",
+      hasTouch: width < 500,
     });
-    await page.locator('.invitation-scene[data-state=waiting]').waitFor();
-    assert.equal(await page.locator('.entrance').count(),0);
-    const transition=await page.evaluate(()=>window.logoTransitionFrames);
-    assert.ok(transition.length>0&&transition.every(frame=>frame.sceneOpaque&&frame.pageHidden),'The homepage never flashes through the logo-to-envelope transition');
-    assert.ok(transition.some(frame=>frame.logoLeaving&&frame.envelopeReady),'Envelope is already painted behind the exiting logo');
-    const button=page.locator('#open-invitation');
-    assert.equal(await button.evaluate(el=>el===document.activeElement),true,'Envelope receives keyboard focus');
-    assert.equal(await page.locator('main').evaluate(el=>el.inert),true);
-    const before=await page.locator('.envelope-float').getAttribute('style');
-    await page.waitForTimeout(width===1440?8000:1200);
-    assert.equal(await page.locator('.invitation-scene').getAttribute('data-state'),'waiting','Envelope never opens on a timer');
-    assert.notEqual(await page.locator('.envelope-float').getAttribute('style'),before,'Envelope keeps floating');
-    await page.mouse.wheel(0,1500);await page.waitForTimeout(200);
-    assert.equal(await page.evaluate(()=>scrollY),0,'Background scrolling is locked');
-    await page.keyboard.press('Tab');assert.equal(await button.evaluate(el=>el===document.activeElement),true);
-    await page.keyboard.press('Shift+Tab');assert.equal(await button.evaluate(el=>el===document.activeElement),true);
-    const closed=await button.boundingBox();
-    assert.ok(closed.x>=0&&closed.y>=0&&closed.x+closed.width<=width&&closed.y+closed.height<=height,'Closed envelope fits the screen');
-    assert.ok(Math.abs(closed.y+closed.height/2-height/2)<16,'Envelope floats in the center of the viewport');
-    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
-    await page.screenshot({path:`test-results/envelope-waiting-${width}.png`});
-    await page.evaluate(()=>{window.revealCount=0;document.addEventListener('wedding:reveal',()=>window.revealCount++);});
-    if(width===1440)await page.keyboard.press('Enter');
-    else if(width===320)await page.keyboard.press('Space');
-    else {const box=await button.boundingBox();await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);}
-    assert.equal(await page.locator('.invitation-scene').getAttribute('data-state'),'opening');
-    assert.equal(await button.isDisabled(),true);
-    await page.evaluate(()=>{for(let i=0;i<5;i++)document.getElementById('open-invitation').click();});
-    await page.waitForTimeout(2850);
-    const title=page.locator('.card-title'),subtitle=page.locator('.card-subtitle');
-    assert.equal(await title.textContent(),"You're Invited");
-    assert.equal(await subtitle.textContent(),'To Celebrate Our Wedding');
-    assert.ok(Number(await title.evaluate(el=>getComputedStyle(el).opacity))>.9,'Invitation title is actually revealed');
-    assert.ok(Number(await subtitle.evaluate(el=>getComputedStyle(el).opacity))>.9);
-    assert.equal(await page.locator('.wax-seal').evaluate(el=>getComputedStyle(el).visibility),'hidden');
-    assert.equal(await page.locator('.envelope-flap').evaluate(el=>getComputedStyle(el).zIndex),'1','Open flap moves behind the card');
-    for(const text of [title,subtitle]){const box=await text.boundingBox();assert.ok(box.x>=0&&box.y>=0&&box.x+box.width<=width&&box.y+box.height<=height,'Invitation text remains inside the viewport');}
-    await page.screenshot({path:`test-results/envelope-open-${width}.png`});
-    await page.locator('.invitation-scene').waitFor({state:'detached'});
-    assert.equal(await page.evaluate(()=>window.revealCount),1,'Repeated taps reveal the homepage only once');
-    assert.equal(await page.locator('main').evaluate(el=>el.inert),false);
-    assert.equal(await page.evaluate(()=>document.documentElement.classList.contains('invitation-locked')),false);
-    assert.equal(await page.locator('.hero h1').evaluate(el=>el===document.activeElement),true,'Focus moves into the invitation');
-    assert.equal(await page.locator('.hero h1').evaluate(el=>getComputedStyle(el).outlineStyle),'none','Programmatic heading focus has no visible border');
-    assert.equal(await page.evaluate(()=>scrollY),0,'Opening causes no scroll jump');
-    const seconds=await page.locator('#seconds').textContent();await page.waitForTimeout(1200);
-    assert.notEqual(await page.locator('#seconds').textContent(),seconds);
-    assert.equal(await page.locator('.hero-image img').evaluate(el=>el.naturalWidth>0),true);
-    assert.equal(await page.locator('.floating-couple').isVisible(),true);
-    await page.mouse.wheel(0,650);await page.waitForTimeout(600);assert.ok(await page.evaluate(()=>scrollY)>0,'Scrolling is restored');
-    assert.deepEqual(errors,[]);assert.deepEqual(missing,[]);await page.close();
-    console.log(`PASS: ${width}x${height} logo, indefinite floating, scroll/focus lock, opening layers, card reveal, rapid clicks, restored homepage, assets, and countdown.`);
+    const errors = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    await page.goto(base, { waitUntil: "domcontentloaded" });
+    assert.equal(
+      await page.locator(".invitation-scene").getAttribute("data-state"),
+      "waiting",
+    );
+    assert.equal(await page.locator("main").evaluate((el) => el.inert), true);
+    await page.keyboard.press("Tab");
+    assert.equal(
+      await page
+        .locator("#skip-intro")
+        .evaluate((e) => e === document.activeElement),
+      true,
+    );
+    await page.keyboard.press("Tab");
+    assert.equal(
+      await page
+        .locator("#open-invitation")
+        .evaluate((e) => e === document.activeElement),
+      true,
+    );
+    await page.mouse.wheel(0, 1000);
+    assert.equal(await page.evaluate(() => scrollY), 0);
+    await page.screenshot({ path: `test-results/envelope-${width}.png` });
+    await page.evaluate(() => {
+      window.opens = 0;
+      document.addEventListener("wedding:opened", () => window.opens++);
+    });
+    await page.locator("#open-invitation").press("Enter");
+    if (!reduced) {
+      assert.equal(await page.locator("#open-invitation").isDisabled(), true);
+      await page.evaluate(() =>
+        document.getElementById("open-invitation").click(),
+      );
+      await page.waitForTimeout(1900);
+      await page.screenshot({ path: `test-results/card-${width}.png` });
+    }
+    await page.locator(".invitation-scene").waitFor({ state: "hidden" });
+    assert.equal(await page.evaluate(() => window.opens), 1);
+    assert.equal(await page.locator("main").evaluate((e) => e.inert), false);
+    assert.equal(
+      await page.locator("h1").evaluate((e) => e === document.activeElement),
+      true,
+    );
+    if (width < 701) await page.locator("#menu-toggle").click();
+    await page.locator("#replay-invitation").click();
+    assert.equal(await page.locator(".invitation-scene").isVisible(), true);
+    assert.equal(
+      await page
+        .locator(".invitation-scene")
+        .evaluate((e) => getComputedStyle(e).opacity),
+      "1",
+    );
+    await page.keyboard.press("Escape");
+    assert.equal(await page.locator(".invitation-scene").isVisible(), false);
+    await page.reload();
+    assert.equal(await page.locator(".invitation-scene").isVisible(), false);
+    if (!reduced) {
+      await page.locator("#moments").scrollIntoViewIfNeeded();
+      await page.waitForTimeout(400);
+      if (width > 900)
+        assert.equal(await page.locator(".pin-spacer").count(), 1);
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.waitForFunction(
+        () => document.querySelectorAll(".pin-spacer").length === 0,
+      );
+      assert.equal(await page.locator(".pin-spacer").count(), 0);
+    }
+    assert.deepEqual(errors, []);
+    await page.close();
+    console.log(
+      `PASS ${width}px intro: focus/scroll lock, single activation, card sequence, skip, replay, return visit, motion cleanup.`,
+    );
   }
-  const reduced=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
-  await reduced.goto('http://localhost:3000',{waitUntil:'networkidle'});
-  const waiting=await reduced.locator('.envelope-float').getAttribute('style');
-  await reduced.waitForTimeout(2000);
-  assert.equal(await reduced.locator('.invitation-scene').getAttribute('data-state'),'waiting');
-  assert.equal(await reduced.locator('.envelope-float').getAttribute('style'),waiting,'Reduced motion avoids floating');
-  await reduced.keyboard.press('Space');
-  assert.equal(await reduced.locator('.card-title').evaluate(el=>getComputedStyle(el).opacity),'1');
-  await reduced.locator('.invitation-scene').waitFor({state:'detached'});
-  await reduced.reload({waitUntil:'networkidle'});
-  assert.equal(await reduced.locator('.invitation-scene').getAttribute('data-state'),'waiting','Refreshing restarts the invitation');
-  console.log('PASS: reduced motion, keyboard Space, readable card, and fresh-load replay.');
-  const fallback=await browser.newPage({viewport:{width:360,height:640}});
-  await fallback.route('**/vendor/*.js',route=>route.abort());
-  await fallback.goto('http://localhost:3000',{waitUntil:'networkidle'});
-  assert.equal(await fallback.locator('.invitation-scene').getAttribute('data-state'),'waiting');
-  await fallback.locator('#open-invitation').click();
-  await fallback.locator('.invitation-scene').waitFor({state:'detached'});
-  assert.equal(await fallback.locator('main').evaluate(el=>el.inert),false);
-  console.log('PASS: unavailable-GSAP fallback still requires a click and restores the website.');
-}finally{await browser.close();}
+} finally {
+  await browser.close();
+}

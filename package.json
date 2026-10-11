@@ -1,1 +1,14 @@
-{"name":"emma-james-wedding","private":true,"scripts":{"dev":"node server.mjs","start":"node server.mjs","check":"node --check dist/app.js && node --check dist/dance.js && node --check dist/envelope.js && node --check server.mjs"},"devDependencies":{"playwright":"^1.64.0"}}
+{
+  "name": "emma-james-wedding",
+  "private": true,
+  "scripts": {
+    "dev": "node build.mjs && node server.mjs",
+    "start": "node build.mjs && node server.mjs",
+    "check": "node --check build.mjs && node --check dist/story-config.js && node --check dist/app.js && node --check dist/dance.js && node --check dist/envelope.js && node --check server.mjs",
+    "build": "node build.mjs",
+    "test": "node verify.mjs && node verify-envelope.mjs && node verify-dance.mjs && node verify-creative.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.0"
+  }
+}

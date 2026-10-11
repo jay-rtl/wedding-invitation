@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f5ee" />
+    <meta
+      name="description"
+      content="Together with our families, Emma and James invite you to a celebration of love. June 12, 2027, in the gardens of Tuscany."
+    />
+    <title>Emma & James — A celebration of love</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="dance-floating.css" />
+    <link rel="stylesheet" href="floating-countdown.css" />
+    <link rel="stylesheet" href="envelope.css" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <script defer src="vendor/gsap.min.js"></script>
+    <script defer src="vendor/ScrollTrigger.min.js"></script>
+    <script defer src="story-config.js"></script>
+    <script defer src="app.js"></script>
+    <script defer src="envelope.js"></script>
+    <script defer src="dance.js"></script>
+    <noscript
+      ><style>
+        .header nav {
+          display: flex;
+          position: static;
+          flex-wrap: wrap;
+          font-size: 10px;
+          gap: 10px;
+          padding: 0;
+          background: transparent;
+          color: inherit;
+        }
+        #menu-toggle,
+        #replay-invitation,
+        .floating-couple,
+        #show-companion,
+        #rsvp-form {
+          display: none !important;
+        }
+        .hero-copy {
+          top: 45%;
+        }
+      </style></noscript
+    >
+  </head>
+  <body>
+    <section
+      style="--intro-photo:image-set(url('assets/photos/{{INTRO_IMAGE}}-1280.avif') type('image/avif'),url('assets/photos/{{INTRO_IMAGE}}-1280.webp') type('image/webp'))"
+      class="invitation-scene"
+      id="invitation-scene"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="invitation-scene-title"
+      tabindex="-1"
+      data-state="loading"
+      hidden
+    >
+      <div class="scene-intro">
+        <span class="eyebrow">EMMA & JAMES · {{introEyebrow}}</span>
+        <h2 id="invitation-scene-title">
+          {{introTitle}}<br /><em>{{introSubtitle}}</em>
+        </h2>
+        <span class="scene-rule" aria-hidden="true"></span>
+      </div>
+      <figure class="intro-keepsake">{{COUPLE_PHOTO}}<figcaption>{{portraitCaption}}</figcaption><span class="keepsake-corner" aria-hidden="true"></span></figure>
+      <div class="envelope-stage">
+        <div class="envelope-shadow" aria-hidden="true"></div>
+        <div class="envelope-float">
+          <button
+            type="button"
+            class="envelope-button"
+            id="open-invitation"
+            aria-label="Open your wedding invitation from Emma and James"
+            aria-describedby="envelope-hint"
+            disabled
+          >
+            <span class="envelope-back paper" aria-hidden="true"></span>
+            <span class="invitation-card paper" aria-hidden="true">
+              <span class="card-border"></span><span class="card-photo">{{COUPLE_PHOTO}}</span>
+              <span class="card-monogram">E <i>&</i> J</span>
+              <span class="card-copy"
+                ><span class="card-title">{{cardTitle}}</span
+                ><span class="card-subtitle">{{cardSubtitle}}</span
+                ><span class="card-signature">{{NAMES}}</span></span
+              >
+              <svg
+                class="card-botanical"
+                viewBox="0 0 140 35"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 24q59-20 116 0M50 16q-6-14-16-7 1 11 16 7M71 15q4-16 13-12 1 12-13 12M94 18q8-12 17-5-3 10-17 5"
+                />
+              </svg>
+            </span>
+            <span class="envelope-pocket" aria-hidden="true"
+              ><span class="envelope-left paper"></span
+              ><span class="envelope-right paper"></span
+              ><span class="envelope-bottom paper"></span
+              ><svg
+                class="envelope-seams"
+                viewBox="0 0 400 258"
+                preserveAspectRatio="none"
+              >
+                <path d="M0 258L200 124L400 258M0 0L200 151L400 0" /></svg
+            ></span>
+            <span class="envelope-flap" aria-hidden="true"
+              ><span class="flap-front paper"></span
+              ><span class="flap-back paper"></span
+            ></span>
+            <span class="wax-seal" aria-hidden="true"
+              ><span class="wax-rim"></span
+              ><span class="wax-initials">E<i>&</i>J</span
+              ><svg viewBox="0 0 60 60">
+                <path
+                  d="M16 42q-10-15 1-25M44 42q10-15-1-25M14 28l-3-5m3 11-4-3m5 8-5-1M46 28l3-5m-3 11 4-3m-5 8 5-1"
+                /></svg
+            ></span>
+          </button>
+        </div>
+      </div>
+      <p class="envelope-hint" id="envelope-hint">
+        <span class="hint-arrow" aria-hidden="true">↑</span>Open Our Invitation
+      </p>
+      <button id="skip-intro" class="skip-intro" type="button">
+        Skip intro ↗
+      </button>
+      <p class="intro-demo">{{introDemo}}</p>
+      <p class="envelope-announcement" role="status" aria-live="polite"></p>
+    </section>
+    <a class="skip-link" href="#invitation">Skip to wedding details</a>
+    <header class="header">
+      <a href="#home" class="monogram" aria-label="Home">E<span>&amp;</span>J</a
+      ><button id="menu-toggle" aria-expanded="false" aria-controls="main-nav">
+        Menu <span aria-hidden="true">☰</span>
+      </button>
+      <nav id="main-nav" aria-label="Main navigation">
+        <a href="#story">Our story</a><a href="#celebration">The day</a
+        ><a href="#details">The details</a
+        ><button id="replay-invitation">Open invitation</button>
+      </nav>
+      <a href="#rsvp" class="nav-rsvp">RSVP ↗</a>
+    </header>
+    <main>
+      {{MAIN}}<noscript
+        ><p class="nojs-note">
+          The invitation is fully readable without JavaScript. Enable JavaScript
+          to use the local demo RSVP and live countdown. No response has been
+          sent.
+        </p></noscript
+      >
+    </main>
+    <footer>
+      <span>{{NAMES}} · {{DATE}} · {{LOCATION}}</span>
+      <p>
+        Fictional demonstration invitation. AI-generated couple portrait; atmospheric stock photographs.
+      </p>
+      <button id="show-companion">Show countdown companion</button>
+    </footer>
+    <aside
+      class="floating-couple"
+      id="floating-couple"
+      data-size="medium"
+      tabindex="0"
+      role="group"
+      aria-label="Floating bride and groom with the wedding date and live countdown. Drag to move, or use arrow keys when focused."
+      aria-describedby="couple-help"
+    >
+      <div class="couple-content">
+        <svg class="dance-art" viewBox="265 105 425 395" aria-hidden="true">
+          <defs>
+            <linearGradient id="dress-shade" x1="0" x2="1">
+              <stop stop-color="#e6e8d8" />
+              <stop offset=".45" stop-color="#fffdf5" />
+              <stop offset="1" stop-color="#f1f0e3" />
+            </linearGradient>
+          </defs>
+          <ellipse
+            class="dance-floor"
+            cx="450"
+            cy="479"
+            rx="208"
+            ry="13"
+            opacity=".5"
+          />
+          <path
+            class="fine-line"
+            d="M208 418C155 258 211 88 363 52M692 418C745 258 689 88 537 52"
+            opacity=".6"
+          />
+          <g fill="#9eab85" opacity=".5">
+            <ellipse
+              cx="224"
+              cy="119"
+              rx="7"
+              ry="20"
+              transform="rotate(38 224 119)"
+            />
+            <ellipse
+              cx="195"
+              cy="188"
+              rx="7"
+              ry="20"
+              transform="rotate(-26 195 188)"
+            />
+            <ellipse
+              cx="189"
+              cy="270"
+              rx="7"
+              ry="20"
+              transform="rotate(-38 189 270)"
+            />
+            <ellipse
+              cx="209"
+              cy="354"
+              rx="7"
+              ry="20"
+              transform="rotate(-41 209 354)"
+            />
+            <ellipse
+              cx="676"
+              cy="119"
+              rx="7"
+              ry="20"
+              transform="rotate(-38 676 119)"
+            />
+            <ellipse
+              cx="705"
+              cy="188"
+              rx="7"
+              ry="20"
+              transform="rotate(26 705 188)"
+            />
+            <ellipse
+              cx="711"
+              cy="270"
+              rx="7"
+              ry="20"
+              transform="rotate(38 711 270)"
+            />
+            <ellipse
+              cx="691"
+              cy="354"
+              rx="7"
+              ry="20"
+              transform="rotate(41 691 354)"
+            />
+          </g>
+          <g class="sparkle dance-sparkles">
+            <path
+              d="M275 194v22m-11-11h22M630 139v18m-9-9h18M609 341v20m-10-10h20"
+            />
+            <circle cx="297" cy="337" r="3" />
+            <circle cx="646" cy="247" r="3" />
+          </g>
+          <g transform="translate(363 325)">
+            <g id="groom-position">
+              <g id="groom-body">
+                <g id="groom-left-leg">
+                  <path fill="#35452e" d="M-31 21h29l-3 118h-22z" />
+                  <path fill="#293524" d="M-28 132h24l6 16h-36q-4-10 6-16" />
+                </g>
+                <g id="groom-right-leg">
+                  <path fill="#43543c" d="M-1 21h30l9 117H13z" />
+                  <path fill="#293524" d="M12 132h25l13 12q2 6-6 6H11z" />
+                </g>
+                <path class="skin" d="M-9-136h22v31H-9z" />
+                <path fill="#fffdf5" d="M-15-116L0-106l16-11 12 68H-25z" />
+                <path
+                  class="groom-suit"
+                  d="M-13-120l-22 13q-9 39 0 138h72l-8-83-1-55-13-11L2-56z"
+                />
+                <path
+                  fill="#607153"
+                  d="M-13-120l-7 30 12 5-8 9L2-56zM16-119l10 28-11 8 8 8L2-56z"
+                />
+                <path fill="#35452e" d="M-3-106h9l4 12-7 29-6-30z" />
+                <path class="fine-line" d="M4-49v71" />
+                <circle fill="#a8b495" cx="6" cy="-33" r="2" />
+                <circle fill="#a8b495" cx="6" cy="-11" r="2" />
+                <g id="groom-left-arm">
+                  <path
+                    class="groom-suit"
+                    d="M-30-108q-13-2-18 16l-25 48 17 9 32-41z"
+                  />
+                  <path class="skin" d="M-72-45l-5 14q-1 11 7 9l14-14z" />
+                </g>
+                <g id="groom-right-arm">
+                  <path
+                    class="groom-suit"
+                    d="M25-108q13-4 23 13l24 12 10-3 6 16-17 6-39-19z"
+                  />
+                  <path fill="#fffdf5" d="M77-87l7-2 7 18-8 2z" />
+                  <path class="skin" d="M83-88q8-7 13-2l5 8q2 6-6 7l-6 1z" />
+                </g>
+                <ellipse
+                  class="skin"
+                  cx="2"
+                  cy="-157"
+                  rx="23"
+                  ry="29"
+                  transform="rotate(8 2 -157)"
+                />
+                <path
+                  fill="#443c30"
+                  d="M-22-155q-6-39 22-38 33-1 27 35l-9-18q-18 8-36-1z"
+                />
+                <path
+                  fill="none"
+                  stroke="#805f47"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                  d="M13-152l3 5-5 2M7-139q6 3 10-1"
+                />
+                <path
+                  fill="none"
+                  stroke="#443c30"
+                  stroke-width="1.8"
+                  d="M9-159l5 1"
+                />
+                <g transform="translate(23 -91)">
+                  <path stroke="#bac5a1" d="M0 0l-4 14" />
+                  <circle fill="#f9f7ed" cx="0" cy="0" r="5" />
+                  <ellipse
+                    fill="#96a97a"
+                    cx="-5"
+                    cy="8"
+                    rx="3"
+                    ry="6"
+                    transform="rotate(-40 -5 8)"
+                  />
+                </g>
+              </g>
+            </g>
+          </g>
+          <g transform="translate(538 325)">
+            <g id="bride-position">
+              <g id="bride-turn">
+                <g id="bride-body">
+                  <g id="bride-veil">
+                    <path
+                      class="veil"
+                      d="M3-181q43-7 55 56l13 158q-33-17-47-48L8-137z"
+                    />
+                    <path
+                      class="fine-line"
+                      d="M24-160q30 56 32 143"
+                      opacity=".5"
+                    />
+                  </g>
+                  <path
+                    fill="#c8aa88"
+                    d="M-12 130l-13 14q-5 5 3 7h20l2-20M26 130l5 15q4 6-5 6H10l-1-18"
+                  />
+                  <g id="bride-skirt">
+                    <path
+                      fill="url(#dress-shade)"
+                      stroke="#bec5ae"
+                      stroke-width="1.4"
+                      d="M-25-45q-17 67-63 170-9 17 8 19 70 14 154-2 15-3 5-18Q37 29 23-45z"
+                    />
+                    <path
+                      class="fine-line"
+                      d="M-14-30q-7 82-41 159M8-23q-3 97 10 161M20-27q13 80 39 148"
+                      opacity=".45"
+                    />
+                  </g>
+                  <path class="skin" d="M-8-139h17v31h-17z" />
+                  <path
+                    class="dress"
+                    d="M-23-111q12 11 23 4 12 7 25-5l-2 31-3 39q-21 8-43-1l-3-37z"
+                  />
+                  <path fill="none" stroke="#c6cbb7" d="M-22-46q20 7 44 0" />
+                  <g id="bride-left-arm">
+                    <path
+                      class="skin"
+                      d="M-21-111q-8-1-13 9l-30 21-25-8-5 11 33 13q5 1 9-3l35-24z"
+                    />
+                    <path class="dress" d="M-23-114l-8 3-5 13 14 7 8-11z" />
+                  </g>
+                  <g id="bride-right-arm">
+                    <path class="skin" d="M22-109q7-1 12 8l23 37-10 9-29-40z" />
+                    <path class="skin" d="M55-68l-18-21-8 7 18 28q5 4 11-2z" />
+                    <path class="dress" d="M24-114l11 5 5 12-13 7-12-11z" />
+                  </g>
+                  <ellipse
+                    class="skin"
+                    cx="0"
+                    cy="-160"
+                    rx="22"
+                    ry="28"
+                    transform="rotate(-10 0 -160)"
+                  />
+                  <path
+                    fill="#6e5138"
+                    d="M-23-158q-8-28 15-35 34-8 34 26l-11-8q-19 1-30 13z"
+                  />
+                  <circle fill="#6e5138" cx="24" cy="-170" r="13" />
+                  <path
+                    fill="none"
+                    stroke="#805f47"
+                    stroke-width="1.4"
+                    stroke-linecap="round"
+                    d="M-11-153l-4 5 6 2M-13-139q5 3 10-1"
+                  />
+                  <path
+                    fill="none"
+                    stroke="#6e5138"
+                    stroke-width="1.8"
+                    d="M-14-159l5-2"
+                  />
+                  <g fill="#fffdf5">
+                    <circle cx="14" cy="-184" r="4" />
+                    <circle cx="21" cy="-183" r="4" />
+                    <circle cx="27" cy="-178" r="4" />
+                  </g>
+                  <circle fill="#fdfbf0" cx="15" cy="-145" r="2" />
+                </g>
+              </g>
+            </g>
+          </g>
+          <path class="fine-line" d="M360 507h180" opacity=".7" />
+          <text
+            x="450"
+            y="532"
+            text-anchor="middle"
+            fill="#82916c"
+            font-family="Cormorant Garamond, Georgia, serif"
+            font-size="18"
+            font-style="italic"
+          >
+            Emma & James
+          </text>
+        </svg>
+        <div class="floating-wedding-clock">
+          <time
+            class="floating-wedding-date"
+            id="floating-wedding-date"
+            datetime="2027-06-12T16:00:00+02:00"
+            >June 12, 2027</time
+          >
+          <div
+            class="floating-countdown"
+            aria-label="Time until the wedding"
+            aria-live="off"
+          >
+            <div><span data-countdown="days">000</span><small>DAYS</small></div>
+            <b aria-hidden="true">:</b>
+            <div><span data-countdown="hours">00</span><small>HRS</small></div>
+            <b aria-hidden="true">:</b>
+            <div>
+              <span data-countdown="minutes">00</span><small>MIN</small>
+            </div>
+            <b aria-hidden="true">:</b>
+            <div>
+              <span data-countdown="seconds">00</span><small>SEC</small>
+            </div>
+          </div>
+          <p
+            class="floating-wedding-message"
+            id="floating-wedding-message"
+            hidden
+          >
+            Our wedding day is here!
+          </p>
+        </div>
+      </div>
+      <button
+        id="companion-toggle"
+        aria-expanded="true"
+        aria-label="Minimize countdown companion"
+      >
+        −</button
+      ><button id="companion-close" aria-label="Close countdown companion">
+        ×
+      </button>
+      <div class="couple-tools">
+        <button
+          type="button"
+          class="couple-size-button"
+          id="couple-smaller"
+          aria-label="Make the floating couple and countdown smaller"
+          title="Make smaller"
+        >
+          −
+        </button>
+        <div
+          class="couple-grip"
+          tabindex="0"
+          role="button"
+          aria-label="Drag countdown; arrow keys move"
+        >
+          <span aria-hidden="true">⠿</span> drag to move
+        </div>
+        <button
+          type="button"
+          class="couple-size-button"
+          id="couple-larger"
+          aria-label="Make the floating couple and countdown larger"
+          title="Make larger"
+        >
+          +
+        </button>
+      </div>
+      <p class="couple-help" id="couple-help">
+        The couple, wedding date, and countdown stay together as you scroll.
+        Drag with your mouse or finger to move them. Use the arrow keys when
+        focused, or the minus and plus buttons to change the size.
+      </p>
+    </aside>
+  </body>
+</html>

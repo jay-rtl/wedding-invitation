@@ -1,0 +1,419 @@
+[
+  {
+    "name": "tuscany",
+    "id": "r9RW20TrQ0Y",
+    "author": "Luca Micheli",
+    "source": "https://images.unsplash.com/photo-1518098268026-4e89f1a2cd8e",
+    "page": "https://unsplash.com/photos/r9RW20TrQ0Y",
+    "license": "https://unsplash.com/license",
+    "demo": true,
+    "alt": "A cypress-lined road winds through rolling Tuscan hills beneath a sunset sky.",
+    "variants": [
+      {
+        "path": "assets/photos/tuscany-640.webp",
+        "width": 640,
+        "height": 480,
+        "bytes": 57924
+      },
+      {
+        "path": "assets/photos/tuscany-640.avif",
+        "width": 640,
+        "height": 480,
+        "bytes": 26838
+      },
+      {
+        "path": "assets/photos/tuscany-1280.webp",
+        "width": 1280,
+        "height": 959,
+        "bytes": 177536
+      },
+      {
+        "path": "assets/photos/tuscany-1280.avif",
+        "width": 1280,
+        "height": 959,
+        "bytes": 73369
+      },
+      {
+        "path": "assets/photos/tuscany-1920.webp",
+        "width": 1920,
+        "height": 1439,
+        "bytes": 342336
+      },
+      {
+        "path": "assets/photos/tuscany-1920.avif",
+        "width": 1920,
+        "height": 1439,
+        "bytes": 134468
+      }
+    ]
+  },
+  {
+    "name": "cafe",
+    "id": "VobvKmG-StA",
+    "author": "Clifford",
+    "source": "https://images.unsplash.com/photo-1511081692775-05d0f180a065",
+    "page": "https://unsplash.com/photos/VobvKmG-StA",
+    "license": "https://unsplash.com/license",
+    "demo": true,
+    "alt": "Warm pendant lights hang above an empty wooden table in a quiet cafe.",
+    "variants": [
+      {
+        "path": "assets/photos/cafe-640.webp",
+        "width": 640,
+        "height": 964,
+        "bytes": 95390
+      },
+      {
+        "path": "assets/photos/cafe-640.avif",
+        "width": 640,
+        "height": 964,
+        "bytes": 40242
+      },
+      {
+        "path": "assets/photos/cafe-1280.webp",
+        "width": 1280,
+        "height": 1927,
+        "bytes": 460374
+      },
+      {
+        "path": "assets/photos/cafe-1280.avif",
+        "width": 1280,
+        "height": 1927,
+        "bytes": 105534
+      },
+      {
+        "path": "assets/photos/cafe-1920.webp",
+        "width": 1920,
+        "height": 2891,
+        "bytes": 1197640
+      },
+      {
+        "path": "assets/photos/cafe-1920.avif",
+        "width": 1920,
+        "height": 2891,
+        "bytes": 369832
+      }
+    ]
+  },
+  {
+    "name": "coast",
+    "id": "f6n6cRpjtnE",
+    "author": "Oliver Sherwin",
+    "source": "https://images.unsplash.com/photo-1725396956222-9bd39d323e8b",
+    "page": "https://unsplash.com/photos/f6n6cRpjtnE",
+    "license": "https://unsplash.com/license",
+    "demo": true,
+    "alt": "The blue Mediterranean and small boats seen between pastel walls in Positano.",
+    "variants": [
+      {
+        "path": "assets/photos/coast-640.webp",
+        "width": 640,
+        "height": 955,
+        "bytes": 128048
+      },
+      {
+        "path": "assets/photos/coast-640.avif",
+        "width": 640,
+        "height": 955,
+        "bytes": 47490
+      },
+      {
+        "path": "assets/photos/coast-1280.webp",
+        "width": 1280,
+        "height": 1910,
+        "bytes": 584184
+      },
+      {
+        "path": "assets/photos/coast-1280.avif",
+        "width": 1280,
+        "height": 1910,
+        "bytes": 196241
+      },
+      {
+        "path": "assets/photos/coast-1920.webp",
+        "width": 1920,
+        "height": 2864,
+        "bytes": 1317300
+      },
+      {
+        "path": "assets/photos/coast-1920.avif",
+        "width": 1920,
+        "height": 2864,
+        "bytes": 466116
+      }
+    ]
+  },
+  {
+    "name": "sunset",
+    "id": "iW06DUcrhSY",
+    "author": "Alan Jiang",
+    "source": "https://images.unsplash.com/photo-1768835304841-62ae1c41c37a",
+    "page": "https://unsplash.com/photos/iW06DUcrhSY",
+    "license": "https://unsplash.com/license",
+    "demo": true,
+    "alt": "Evening sunlight falls on a farmhouse and cypress trees in the Tuscan countryside.",
+    "variants": [
+      {
+        "path": "assets/photos/sunset-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 47544
+      },
+      {
+        "path": "assets/photos/sunset-640.avif",
+        "width": 640,
+        "height": 427,
+        "bytes": 23220
+      },
+      {
+        "path": "assets/photos/sunset-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 166838
+      },
+      {
+        "path": "assets/photos/sunset-1280.avif",
+        "width": 1280,
+        "height": 853,
+        "bytes": 74055
+      },
+      {
+        "path": "assets/photos/sunset-1920.webp",
+        "width": 1920,
+        "height": 1280,
+        "bytes": 321810
+      },
+      {
+        "path": "assets/photos/sunset-1920.avif",
+        "width": 1920,
+        "height": 1280,
+        "bytes": 143408
+      }
+    ]
+  },
+  {
+    "name": "ceremony",
+    "id": "QV_uommyHdU",
+    "author": "Eryk Piotr Munk",
+    "source": "https://images.unsplash.com/photo-1722259348168-37dd9a0ffc3f",
+    "page": "https://unsplash.com/photos/QV_uommyHdU",
+    "license": "https://unsplash.com/license",
+    "demo": true,
+    "alt": "White chairs and a floral ceremony arch overlook a green hillside.",
+    "variants": [
+      {
+        "path": "assets/photos/ceremony-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 70076
+      },
+      {
+        "path": "assets/photos/ceremony-640.avif",
+        "width": 640,
+        "height": 427,
+        "bytes": 35862
+      },
+      {
+        "path": "assets/photos/ceremony-1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 205446
+      },
+      {
+        "path": "assets/photos/ceremony-1280.avif",
+        "width": 1280,
+        "height": 853,
+        "bytes": 101282
+      },
+      {
+        "path": "assets/photos/ceremony-1920.webp",
+        "width": 1920,
+        "height": 1280,
+        "bytes": 388866
+      },
+      {
+        "path": "assets/photos/ceremony-1920.avif",
+        "width": 1920,
+        "height": 1280,
+        "bytes": 182949
+      }
+    ]
+  },
+  {
+    "name": "aperitivo",
+    "id": "Hq40CpnPJeA",
+    "author": "Andrew Ling",
+    "source": "https://images.unsplash.com/photo-1707069517655-544ad76c8771",
+    "page": "https://unsplash.com/photos/Hq40CpnPJeA",
+    "license": "https://unsplash.com/license",
+    "demo": true,
+    "alt": "Two amber aperitivo drinks sit on a cafe table beside rosemary and small bites.",
+    "variants": [
+      {
+        "path": "assets/photos/aperitivo-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 85804
+      },
+      {
+        "path": "assets/photos/aperitivo-640.avif",
+        "width": 640,
+        "height": 960,
+        "bytes": 39716
+      },
+      {
+        "path": "assets/photos/aperitivo-1280.webp",
+        "width": 1280,
+        "height": 1920,
+        "bytes": 303906
+      },
+      {
+        "path": "assets/photos/aperitivo-1280.avif",
+        "width": 1280,
+        "height": 1920,
+        "bytes": 87908
+      },
+      {
+        "path": "assets/photos/aperitivo-1920.webp",
+        "width": 1920,
+        "height": 2880,
+        "bytes": 938682
+      },
+      {
+        "path": "assets/photos/aperitivo-1920.avif",
+        "width": 1920,
+        "height": 2880,
+        "bytes": 184002
+      }
+    ]
+  },
+  {
+    "name": "dinner",
+    "id": "zjJiX9txwRU",
+    "author": "Ben Atkins",
+    "source": "https://images.unsplash.com/photo-1775126964424-913480443772",
+    "page": "https://unsplash.com/photos/zjJiX9txwRU",
+    "license": "https://unsplash.com/license",
+    "demo": true,
+    "alt": "An ivory reception table is laid with flowers, glassware and candles.",
+    "variants": [
+      {
+        "path": "assets/photos/dinner-640.webp",
+        "width": 640,
+        "height": 853,
+        "bytes": 71388
+      },
+      {
+        "path": "assets/photos/dinner-640.avif",
+        "width": 640,
+        "height": 853,
+        "bytes": 35734
+      },
+      {
+        "path": "assets/photos/dinner-1280.webp",
+        "width": 1280,
+        "height": 1707,
+        "bytes": 169280
+      },
+      {
+        "path": "assets/photos/dinner-1280.avif",
+        "width": 1280,
+        "height": 1707,
+        "bytes": 80841
+      },
+      {
+        "path": "assets/photos/dinner-1920.webp",
+        "width": 1920,
+        "height": 2560,
+        "bytes": 285798
+      },
+      {
+        "path": "assets/photos/dinner-1920.avif",
+        "width": 1920,
+        "height": 2560,
+        "bytes": 127806
+      }
+    ]
+  },
+  {
+    "name": "coffee",
+    "id": "AbFiYWiTf_k",
+    "author": "Olena Bohovyk",
+    "source": "https://images.unsplash.com/photo-1657778232464-2932ffa2b68d",
+    "page": "https://unsplash.com/photos/AbFiYWiTf_k",
+    "license": "https://unsplash.com/license",
+    "demo": true,
+    "alt": "Two cups of coffee with latte art on a warm wooden cafe table.",
+    "variants": [
+      {
+        "path": "assets/photos/coffee-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 46188
+      },
+      {
+        "path": "assets/photos/coffee-640.avif",
+        "width": 640,
+        "height": 960,
+        "bytes": 20661
+      },
+      {
+        "path": "assets/photos/coffee-1280.webp",
+        "width": 1280,
+        "height": 1920,
+        "bytes": 115288
+      },
+      {
+        "path": "assets/photos/coffee-1280.avif",
+        "width": 1280,
+        "height": 1920,
+        "bytes": 45775
+      },
+      {
+        "path": "assets/photos/coffee-1920.webp",
+        "width": 1920,
+        "height": 2880,
+        "bytes": 219914
+      },
+      {
+        "path": "assets/photos/coffee-1920.avif",
+        "width": 1920,
+        "height": 2880,
+        "bytes": 73671
+      }
+    ]
+  },
+  {
+    "name": "couple-demo",
+    "author": "AI-generated fictional sample",
+    "source": "Built-in image_gen tool",
+    "demo": true,
+    "alt": "AI-generated fictional Emma and James in a Tuscan olive grove",
+    "variants": [
+      {
+        "path": "assets/photos/couple-demo-640.avif",
+        "width": 640,
+        "height": 960,
+        "bytes": 34007
+      },
+      {
+        "path": "assets/photos/couple-demo-640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 60700
+      },
+      {
+        "path": "assets/photos/couple-demo-1024.avif",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 65315
+      },
+      {
+        "path": "assets/photos/couple-demo-1024.webp",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 110256
+      }
+    ]
+  }
+]
